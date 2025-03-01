@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: Loop
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/loop_db
+    username: root
+    password: rootpassword123
+
+  jpa:
+    show-sql: true
+    format-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect
