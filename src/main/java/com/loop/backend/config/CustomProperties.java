@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "custom")
 public class CustomProperties {
-    private String clientPort;
+    private String client;
 }
