@@ -1,25 +1,30 @@
 package com.loop.backend.entity;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "message")
-public class Message extends BaseEntity {
+public class Message {
 
-    @Column(nullable = false)
-    @NotBlank(message = "Message content cannot be blank")
-    private String content;
-
-    @Column(nullable = false)
     @NotBlank(message = "Sender cannot be blank")
     private String sender;
 
-    @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
-    private Room room;
+    @NotBlank(message = "Message content cannot be blank")
+    private String content;
+
+    private LocalDateTime timeStamp;
+
+    public Message(String sender, String content) {
+        this.sender = sender;
+        this.content = content;
+        this.timeStamp = LocalDateTime.now();
+    }
 }
