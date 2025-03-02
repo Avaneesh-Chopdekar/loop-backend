@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "custom")
 public class CustomProperties {
-    private String client;
+    private String clientProd;
+    private String clientDev;
 }

@@ -22,9 +22,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        String client = customProperties.getClient();
+        String clientProd = customProperties.getClientProd();
+        String clientDev = customProperties.getClientDev();
         registry.addEndpoint("/chat")
-                .setAllowedOriginPatterns(client)
+                .setAllowedOriginPatterns(clientProd, clientDev)
                 .withSockJS();
     }
 }
