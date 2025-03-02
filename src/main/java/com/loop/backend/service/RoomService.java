@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,17 +41,29 @@ public class RoomService {
         return ResponseEntity.ok(room);
     }
 
-    public ResponseEntity<?> getMessages(String roomId, int page, int size) {
-        Room room = roomRepository.findByRoomId(roomId).orElseThrow(
-                () -> new RuntimeException("Room not found")
-        );
+    public ResponseEntity<List<Message>> getMessages(String roomId, int page, int size) {
+        try {
+            Room room = roomRepository.findByRoomId(roomId).orElseThrow(
+                    () -> new RuntimeException("Room not found")
+            );
 
-        List<Message> messages = room.getMessages();
+            List<Message> messages = room.getMessages()
+                    .stream()
+                    .sorted(Comparator.comparing(Message::getCreatedAt))
+                    .toList();
+            int start = page * size;
+            int end = Math.min(start + size, messages.size());
 
-        int start = Math.max(0, messages.size() - (page + 1) * size);
-        int end = Math.min(messages.size(), start + size);
-        List<Message> paginatedMessages = messages.subList(start, end);
+            if (start >= messages.size()) {
+                return ResponseEntity.ok(Collections.emptyList());
+            }
 
-        return ResponseEntity.ok(room.getMessages());
+            List<Message> paginatedMessages = messages.subList(start, end);
+
+            return ResponseEntity.ok(paginatedMessages);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
