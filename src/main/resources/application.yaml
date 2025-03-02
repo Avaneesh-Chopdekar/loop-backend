@@ -2,21 +2,13 @@ spring:
   application:
     name: Loop
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:loop_db}?serverTimezone=UTC
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:root}
-
-  jpa:
-    show-sql: true
-    format-sql: true
-    hibernate:
-      ddl-auto: ${DDL_AUTO:update}
-      dialect: org.hibernate.dialect.MySQL8Dialect
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/loop_db}
 
 server:
   port: ${SERVER_PORT:8080}
 
 custom:
-  client: ${CLIENT:http://localhost:5173/}
+  client_prod: ${CLIENT:http://localhost:4173/}
+  client_dev: ${CLIENT:http://localhost:5173/}
