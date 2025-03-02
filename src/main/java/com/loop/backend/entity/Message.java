@@ -1,18 +1,17 @@
 package com.loop.backend.entity;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class Message {
+@NoArgsConstructor
+public class Message extends BaseEntity {
 
     @NotBlank(message = "Sender cannot be blank")
     private String sender;
@@ -20,11 +19,11 @@ public class Message {
     @NotBlank(message = "Message content cannot be blank")
     private String content;
 
-    private LocalDateTime timeStamp;
+    private LocalDateTime timestamp;
 
     public Message(String sender, String content) {
         this.sender = sender;
         this.content = content;
-        this.timeStamp = LocalDateTime.now();
+        this.timestamp = LocalDateTime.now();
     }
 }
