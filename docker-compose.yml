@@ -1,0 +1,24 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: loop_db
+    ports:
+      - 3307:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: loop_backend_container
+    env_file:
+      - .env
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
