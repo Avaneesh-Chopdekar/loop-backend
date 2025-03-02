@@ -7,6 +7,8 @@ import com.loop.backend.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Service
 public class ChatService {
@@ -20,6 +22,7 @@ public class ChatService {
         Message message = new Message();
         message.setContent(request.getContent());
         message.setSender(request.getSender());
+        message.setTimeStamp(LocalDateTime.now());
         room.getMessages().add(message);
         roomRepository.save(room);
         return message;
