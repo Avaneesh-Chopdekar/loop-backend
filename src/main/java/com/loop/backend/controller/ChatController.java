@@ -1,9 +1,8 @@
 package com.loop.backend.controller;
 
 import com.loop.backend.entity.Message;
-import com.loop.backend.entity.Room;
 import com.loop.backend.dto.MessageRequest;
-import com.loop.backend.repository.RoomRepository;
+import com.loop.backend.service.ChatService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class ChatController {
 
-    private final RoomRepository roomRepository;
+    private final ChatService chatService;
 
     @MessageMapping("/sendMessage/{roomId}")
     @SendTo("/topic/room/{roomId}")
@@ -26,14 +25,6 @@ public class ChatController {
             @DestinationVariable @NonNull String roomId,
             @RequestBody @NonNull MessageRequest request
     ) {
-        Room room = roomRepository.findByRoomId(roomId).orElseThrow(
-                () -> new RuntimeException("Room not found")
-        );
-        Message message = new Message();
-        message.setContent(request.getContent());
-        message.setSender(request.getSender());
-        room.getMessages().add(message);
-        roomRepository.save(room);
-        return message;
+        return chatService.sendMessage(roomId, request);
     }
 }
