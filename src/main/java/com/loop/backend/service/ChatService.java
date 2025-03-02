@@ -22,7 +22,7 @@ public class ChatService {
         Message message = new Message();
         message.setContent(request.getContent());
         message.setSender(request.getSender());
-        message.setTimeStamp(LocalDateTime.now());
+        message.setTimestamp(LocalDateTime.now());
         room.getMessages().add(message);
         roomRepository.save(room);
         return message;
